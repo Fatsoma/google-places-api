@@ -54,7 +54,7 @@ func TestDetailsCallDo(t *testing.T) {
 			Want:    errors.New("json: cannot unmarshal string into Go value of type places.DetailsResponse"),
 		},
 		{
-			Name:    "communication problem",
+			Name:    "Communication Problem",
 			PlaceID: "wrong",
 			URL:     cts.URL,
 			Want: errors.New(
