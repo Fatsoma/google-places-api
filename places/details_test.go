@@ -11,11 +11,13 @@ import (
 )
 
 func TestDetailsCallDo(t *testing.T) {
+	// open a test server and immediatly close it
+	// we do this to get a valid test URL later on in the communcation fault test
+	cts := httptest.NewServer(http.HandlerFunc(handler))
+	cts.Close()
+
 	ts := httptest.NewServer(http.HandlerFunc(handler))
 	defer ts.Close()
-
-	ts2 := httptest.NewServer(http.HandlerFunc(handler))
-	ts2.Close()
 
 	for _, test := range []struct {
 		Name      string
@@ -54,9 +56,9 @@ func TestDetailsCallDo(t *testing.T) {
 		{
 			Name:    "communication problem",
 			PlaceID: "wrong",
-			URL:     ts2.URL,
+			URL:     cts.URL,
 			Want: errors.New(
-				"Get " + ts2.URL + "/details/json?key=testkey&placeid=wrong: dial tcp " + ts2.Listener.Addr().String() + ": getsockopt: connection refused",
+				"Get " + cts.URL + "/details/json?key=testkey&placeid=wrong: dial tcp " + cts.Listener.Addr().String() + ": getsockopt: connection refused",
 			),
 		},
 	} {
