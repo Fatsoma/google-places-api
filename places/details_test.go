@@ -87,23 +87,23 @@ func handler(writer http.ResponseWriter, reader *http.Request) {
 	uri := reader.URL.RequestURI()
 
 	if uri == "/details/json?extensions=review_summary&key=testkey&language=en&placeid=ChIJLU7jZClu5kcR4PcOOO6p3I0" {
-		fmt.Fprintf(writer, readResponse("ok"))
+		fmt.Fprint(writer, readResponse("ok"))
 		return
 	}
 
 	if uri == "/details/json?key=testkey&placeid=invalid_request" {
-		fmt.Fprintf(writer, readResponse("invalid_request"))
+		fmt.Fprint(writer, readResponse("invalid_request"))
 		return
 	}
 
 	if uri == "/details/json?key=testkey&placeid=invalid_json" {
-		fmt.Fprintf(writer, readResponse("invalid_json"))
+		fmt.Fprint(writer, readResponse("invalid_json"))
 		return
 	}
 
 	if uri == "/details/json?key=testkey&placeid=notok" {
 		writer.WriteHeader(400)
-		fmt.Fprintf(writer, "")
+		fmt.Fprint(writer, "")
 		return
 	}
 }
